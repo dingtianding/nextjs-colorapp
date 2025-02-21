@@ -1,7 +1,7 @@
 'use client';
 
 import { Color } from '@/types/color';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ColorListProps {
@@ -9,16 +9,25 @@ interface ColorListProps {
 }
 
 export default function ColorList({ initialColors }: ColorListProps) {
-  const [colors, setColors] = useState<Color[]>(initialColors);
+  const [colors, setColors] = useState<Color[]>([]);
   const [sortByHex, setSortByHex] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    setTimeout(() => {
+      setColors(initialColors);
+      setLoading(false);
+    }, 3000);
+  }, [initialColors]);
 
   const toggleSort = () => {
     setSortByHex(!sortByHex);
     setColors([...colors].sort((a, b) => {
       if (sortByHex) {
-        return a.name.localeCompare(b.name);
-      } else {
         return a.hexCode.localeCompare(b.hexCode);
+      } else {
+        return a.name.localeCompare(b.name);
       }
     }));
   };
@@ -47,26 +56,50 @@ export default function ColorList({ initialColors }: ColorListProps) {
       
       <div className="space-y-2">
         <AnimatePresence>
-          {colors.map((color) => (
-            <motion.div
-              key={`${color.name}-${color.hexCode}`}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center justify-between p-3 border rounded"
-            >
-              <span>{color.name}</span>
-              <div className="flex items-center gap-2">
-                <span>{color.hexCode}</span>
-                <div
-                  className="w-6 h-6 border rounded"
-                  style={{ backgroundColor: color.hexCode }}
-                />
-              </div>
-            </motion.div>
-          ))}
+          {loading ? (
+            <>
+              <p className="text-white-500 italic text-center mb-4">
+                Simulated 3 second loading delay...
+              </p>
+              {/* Loading skeleton */}
+              {[...Array(5)].map((_, i) => (
+                <div 
+                  key={`skeleton-${i}`}
+                  className="flex items-center justify-between p-3 border rounded animate-pulse"
+                >
+                  <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-16 bg-gray-200 rounded"></div>
+                    <div className="w-6 h-6 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            colors.map((color) => (
+              <motion.div
+                key={`${color.name}-${color.hexCode}`}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ 
+                  duration: 0.3,
+                  ease: "easeOut"
+                }}
+                className="flex items-center justify-between p-3 border rounded"
+              >
+                <span>{color.name}</span>
+                <div className="flex items-center gap-2">
+                  <span>{color.hexCode}</span>
+                  <div
+                    className="w-6 h-6 border rounded"
+                    style={{ backgroundColor: color.hexCode }}
+                  />
+                </div>
+              </motion.div>
+            ))
+          )}
         </AnimatePresence>
       </div>
     </div>
