@@ -1,7 +1,14 @@
 import ColorList from './components/ColorList';
 
 async function getColors() {
-  const res = await fetch('http://localhost:3000/api/colors', {
+  // Get the full URL for the API endpoint
+  const isProduction = process.env.NODE_ENV === 'production';
+  const protocol = isProduction ? 'https' : 'http';
+  const host = isProduction ? process.env.RENDER_EXTERNAL_URL : 'localhost:3000';
+  
+  const url = `${protocol}://${host}/api/colors`;
+
+  const res = await fetch(url, {
     cache: 'no-store'
   });
   
