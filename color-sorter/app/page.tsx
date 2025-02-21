@@ -2,9 +2,9 @@ import ColorList from './components/ColorList';
 
 async function getColors() {
   // Get the full URL for the API endpoint
-  const isProduction = process.env.NODE_ENV === 'production';
-  const protocol = isProduction ? 'https' : 'http';
-  const host = isProduction ? process.env.RENDER_EXTERNAL_URL : 'localhost:3000';
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+
+  const host = process.env.RENDER_EXTERNAL_URL || 'localhost:3000';
   
   const url = `${protocol}://${host}/api/colors`;
 
