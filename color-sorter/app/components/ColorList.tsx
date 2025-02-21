@@ -26,14 +26,12 @@ export default function ColorList({ initialColors }: ColorListProps) {
   }, [initialColors]);
 
   const toggleSort = () => {
-    const newSortByHex = !sortByHex;
-    setSortByHex(newSortByHex);
+    setSortByHex(!sortByHex);
+    
     setColors([...colors].sort((a, b) => {
-      if (newSortByHex) {
-        return a.hexCode.localeCompare(b.hexCode);
-      } else {
-        return a.name.localeCompare(b.name);
-      }
+      return !sortByHex ? 
+        a.hexCode.localeCompare(b.hexCode) : 
+        a.name.localeCompare(b.name);
     }));
   };
 
