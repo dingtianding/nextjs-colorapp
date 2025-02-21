@@ -2,6 +2,8 @@
 
 A simple Next.js application that displays and sorts colors by name or hex code. Features a smooth loading animation and toggle functionality.
 
+Live site: https://nextjs-colorapp.onrender.com/
+
 ## Features
 
 - Display colors with their names and hex codes

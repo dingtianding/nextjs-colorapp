@@ -1,8 +1,10 @@
 import ColorList from './components/ColorList';
 
 async function getColors() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const isProduction = process.env.NODE_ENV === 'production';
+  const baseUrl = isProduction 
+    ? process.env.NEXT_PUBLIC_API_URL
+    : "http://localhost:3000";
 
   const url = `${baseUrl}/api/colors`;
 
