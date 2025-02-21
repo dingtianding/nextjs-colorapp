@@ -1,8 +1,25 @@
 # Color Sorter
 
-A simple Next.js application that displays and sorts colors by name or hex code. Features a smooth loading animation and toggle functionality.
+A Next.js application that displays and sorts colors by name or hex code. Features a smooth loading animation and toggle functionality.
 
 Live site: [https://nextjs-colorapp.onrender.com/](https://nextjs-colorapp.onrender.com/)
+
+## Project Requirements & Implementation
+
+1. **API Endpoint** (`app/api/colors/route.ts`)
+   - Returns an array of colors with names and hex codes
+   - Implements Next.js Route Handler API
+   - TypeScript interfaces for color data
+
+2. **Server Component** (`app/page.tsx`)
+   - Fetches colors from the API
+   - Server-side rendering for initial data load
+   - Error handling for fetch requests
+
+3. **Client Component** (`app/components/ColorList.tsx`)
+   - Displays color data with smooth loading animations
+   - Toggle functionality to sort by name or hex code
+   - Client-side interactivity and state management
 
 ## Features
 
@@ -40,4 +57,19 @@ Live site: [https://nextjs-colorapp.onrender.com/](https://nextjs-colorapp.onren
    http://localhost:3000
    ```
 
-The application should now be running in development mode. You can start editing the code and see live updates in your browser.
+## Project Structure
+
+```
+color-sorter/
+├── app/
+│   ├── api/
+│   │   └── colors/
+│   │       └── route.ts      # API endpoint for colors
+│   ├── components/
+│   │   └── ColorList.tsx     # Client component with sorting
+│   ├── page.tsx              # Server component
+│   └── layout.tsx            # Root layout
+├── types/
+│   └── color.ts              # TypeScript interfaces
+└── README.md
+```
