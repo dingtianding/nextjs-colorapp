@@ -17,7 +17,7 @@ export default function ColorList({ initialColors }: ColorListProps) {
       if (sortByHex) {
         return a.name.localeCompare(b.name);
       } else {
-        return a.hex.localeCompare(b.hex);
+        return a.hexCode.localeCompare(b.hexCode);
       }
     }));
   };
@@ -34,15 +34,15 @@ export default function ColorList({ initialColors }: ColorListProps) {
       <div className="space-y-2">
         {colors.map((color) => (
           <div
-            key={color.hex}
-            className="flex items-center justify-between p-3 border rounded"
+          key={`${color.name}-${color.hexCode}`}
+          className="flex items-center justify-between p-3 border rounded"
           >
             <span>{color.name}</span>
             <div className="flex items-center gap-2">
-              <span>{color.hex}</span>
+              <span>{color.hexCode}</span>
               <div
                 className="w-6 h-6 border rounded"
-                style={{ backgroundColor: color.hex }}
+                style={{ backgroundColor: color.hexCode }}
               />
             </div>
           </div>
