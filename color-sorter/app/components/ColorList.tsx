@@ -43,10 +43,22 @@ export default function ColorList({ initialColors }: { initialColors: Color[] })
     setColors(sortColors(colors, newSortByHex));
   };
 
+  const resetColors = () => {
+    setColors(sortColors(initialColors, sortByHex));
+  };
+
   return (
     <div className="max-w-md mx-auto p-4">
       <AddColor handleColorAdded={handleColorAdded} />
-      <SortToggle sortByHex={sortByHex} onToggle={toggleSort} />
+      <div className="flex justify-between items-center mb-4">
+        <SortToggle sortByHex={sortByHex} onToggle={toggleSort} />
+        <button
+          onClick={resetColors}
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+        >
+          Reset Colors
+        </button>
+      </div>
       <div className="space-y-2">
         {colors.map((color) => (
           <ColorCard key={color.name.toLowerCase()} color={color} />
