@@ -9,6 +9,14 @@ export default function ColorList({ initialColors }: { initialColors: Color[] })
   const [colors, setColors] = useState<Color[]>(initialColors);
   const [sortByHex, setSortByHex] = useState(false);
 
+  const sortColors = (colorsToSort: Color[], useHexSort: boolean) => {
+    return [...colorsToSort].sort((a, b) => {
+      return useHexSort
+        ? a.hexCode.localeCompare(b.hexCode)
+        : a.name.localeCompare(b.name);
+    });
+  };
+
   const handleColorAdded = async (color: Color) => {
     // Add the color through the API
     await fetch('/api/colors', {
@@ -19,27 +27,20 @@ export default function ColorList({ initialColors }: { initialColors: Color[] })
       body: JSON.stringify(color),
     });
 
-    // Fetch the updated list
+    // Fetch the updated list and sort it
     const response = await fetch('/api/colors');
     if (response.ok) {
       const updatedColors = await response.json();
-      // Apply current sorting to the new list
-      const sortedColors = [...updatedColors].sort((a, b) => {
-        return sortByHex 
-          ? a.hexCode.localeCompare(b.hexCode)
-          : a.name.localeCompare(b.name);
-      });
+      // Sort the colors before setting the state
+      const sortedColors = sortColors(updatedColors, sortByHex);
       setColors(sortedColors);
     }
   };
 
   const toggleSort = () => {
-    setSortByHex(!sortByHex);
-    setColors([...colors].sort((a, b) => {
-      return sortByHex 
-        ? a.hexCode.localeCompare(b.hexCode)
-        : a.name.localeCompare(b.name);
-    }));
+    const newSortByHex = !sortByHex;
+    setSortByHex(newSortByHex);
+    setColors(sortColors(colors, newSortByHex));
   };
 
   return (

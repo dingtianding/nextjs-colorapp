@@ -30,8 +30,9 @@ export async function POST(request: Request) {
     colors[existingColorIndex].hexCode = hexCode;
     return NextResponse.json(colors[existingColorIndex]);
   }
-
   const newColor: Color = { name, hexCode };
   colors.push(newColor);
   return NextResponse.json(newColor);
+
+
 }
