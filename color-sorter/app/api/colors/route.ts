@@ -17,3 +17,21 @@ const colors: Color[] = [
 export async function GET() {
   return NextResponse.json(colors);
 }
+
+export async function POST(request: Request) {
+  const { name, hexCode } = await request.json();
+
+  if (!name || !hexCode) {
+    return NextResponse.json({ error: "Name and hex code are required" }, { status: 400 });
+  }
+
+  const existingColorIndex = colors.findIndex(color => color.name.toLowerCase() === name.toLowerCase());
+  if (existingColorIndex !== -1) {
+    colors[existingColorIndex].hexCode = hexCode;
+    return NextResponse.json(colors[existingColorIndex]);
+  }
+
+  const newColor: Color = { name, hexCode };
+  colors.push(newColor);
+  return NextResponse.json(newColor);
+}
